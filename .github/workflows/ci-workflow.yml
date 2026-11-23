@@ -36,10 +36,10 @@ jobs:
         run: ruff check --exclude .venv --output-format=github --target-version=py39
 
       - name: Detect dead code with Vulture
-        run: vulture . --exclude-dir .venv --min-confidence=100 --ignore-decorators=@abstractmethod,@property --ignore-names=test_*,_*
+        run: vulture . --exclude .venv --min-confidence=100 --ignore-decorators=@abstractmethod,@property --ignore-names=test_*,_*
 
       - name: Run security analysis with Bandit
-        run: bandit -r . --exclude .venv --severity-level medium --confidence-level high --skip B101,B301
+        run: bandit -r . --exclude-dir .venv --severity-level medium --confidence-level high --skip B101,B301
 
       - name: Scan for secrets with detect-secrets
         run: detect-secrets scan --all-files --no-potential --exclude-files "tests/.*|.*\.min\.js|.*\.min\.css|\.venv/" .
