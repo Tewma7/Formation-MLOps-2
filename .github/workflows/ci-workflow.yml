@@ -17,12 +17,14 @@ jobs:
         run: uv python install
       - name: Install dependencies
         run: uv sync --locked --all-groups
-      - name: Install code quality tools (Ruff + Vulture + Bandit + detect-secrets)
-        run: | 
-		uv tool install ruff
-		uv tool install vulture
-		uv tool install bandit
-		uv tool install detect-secrets
+      - name: Install Ruff
+        run: uv tool install ruff
+      - name: Install Vulture
+        run: uv tool install vulture
+      - name: Install Bandit
+        run: uv tool install bandit
+      - name: Install Detect-secrets
+        run: uv tool install detect-secrets
       - name: Lint code with Ruff (PEP8 + extended rules)
         run: ruff check --output-format=github --target-version=py39
       - name: Detect dead code with Vulture
