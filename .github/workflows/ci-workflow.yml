@@ -42,7 +42,7 @@ jobs:
         run: bandit -r formation_mlops_2 scripts --severity-level medium --confidence-level high --skip B101,B301
 
       - name: Scan for secrets with detect-secrets
-        run: detect-secrets scan --all-files --no-potential --exclude-files "tests/.*|.*\.min\.js|.*\.min\.css|\.venv/" .
+        run: detect-secrets scan --all-files --exclude-files "tests/.*|.*\.min\.js|.*\.min\.css|\.venv/" .
 
       - name: Check code formatting with Ruff
         run: ruff format formation_mlops_2 scripts --diff --target-version=py39
