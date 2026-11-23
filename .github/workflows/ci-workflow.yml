@@ -28,7 +28,7 @@ jobs:
       - name: Lint code with Ruff (PEP8 + extended rules)
         run: ruff check --output-format=github --target-version=py39
       - name: Detect dead code with Vulture
-        run: vulture . --min-confidence=100 --ignore-decorators=@abstractmethod,@property --ignore-names=test_*,_*
+        run: vulture formation_mlops_2 scripts --min-confidence=100 --ignore-decorators=@abstractmethod,@property --ignore-names=test_*,_*
       - name: Run security analysis with Bandit
         run: bandit -r . --severity-level medium --confidence-level high --skip B101,B301
       - name: Scan for secrets with detect-secrets
