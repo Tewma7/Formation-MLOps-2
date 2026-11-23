@@ -36,7 +36,7 @@ jobs:
         run: ruff check --exclude .venv --output-format=github --target-version=py39
 
       - name: Detect dead code with Vulture
-        run: vulture . --exclude .venv --min-confidence=100 --ignore-decorators=@abstractmethod,@property --ignore-names=test_*,_*
+        run: vulture . --exclude-dir .venv --min-confidence=100 --ignore-decorators=@abstractmethod,@property --ignore-names=test_*,_*
 
       - name: Run security analysis with Bandit
         run: bandit -r . --exclude .venv --severity-level medium --confidence-level high --skip B101,B301
