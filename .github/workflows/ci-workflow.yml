@@ -22,7 +22,7 @@ jobs:
 	  uv tool install ruff
 	  ruff check --output-format=github --target-version=py39
 	  ruff format --diff --target-version=py39
-	  continue-on-error: true
+	continue-on-error: true
       - name: Run tests
         run: uv run pytest test
 
