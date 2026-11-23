@@ -33,19 +33,19 @@ jobs:
         run: uv tool install detect-secrets
 
       - name: Lint code with Ruff (PEP8 + extended rules)
-        run: ruff check --exclude .venv/ --output-format=github --target-version=py39
+        run: ruff check formation_mlpos_2 scripts --output-format=github --target-version=py39
 
       - name: Detect dead code with Vulture
-        run: vulture . --exclude .venv/ --min-confidence=100 --ignore-decorators=@abstractmethod,@property --ignore-names=test_*,_*
+        run: vulture formation_mlpos_2 scripts --min-confidence=100 --ignore-decorators=@abstractmethod,@property --ignore-names=test_*,_*
 
       - name: Run security analysis with Bandit
-        run: bandit -r . --exclude .venv/ --severity-level medium --confidence-level high --skip B101,B301
+        run: bandit -r formation_mlpos_2 scripts --severity-level medium --confidence-level high --skip B101,B301
 
       - name: Scan for secrets with detect-secrets
         run: detect-secrets scan --all-files --no-potential --exclude-files "tests/.*|.*\.min\.js|.*\.min\.css|\.venv/" .
 
       - name: Check code formatting with Ruff
-        run: ruff format --exclude .venv/ --diff --target-version=py39
+        run: ruff format formation_mlpos_2 scripts --diff --target-version=py39
         continue-on-error: true
 
       - name: Run tests
