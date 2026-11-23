@@ -18,13 +18,17 @@ jobs:
       - name: Install dependencies
         run: uv sync --locked --all-groups
       - name: Install code quality tools (Ruff + Vulture + Bandit + detect-secrets)
-        run: uv tool install ruff vulture bandit detect-secrets
+        run: | 
+		uv tool install ruff
+		uv tool install vulture
+		uv tool install bandit
+		uv tool install detect-secrets
       - name: Lint code with Ruff (PEP8 + extended rules)
         run: ruff check --output-format=github --target-version=py39
       - name: Detect dead code with Vulture
         run: vulture . --min-confidence=100 --ignore-decorators=@abstractmethod,@property --ignore-names=test_*,_*
       - name: Run security analysis with Bandit
-        run: bandit -r . --severity-level medium --confiance-level high --skip B101,B301
+        run: bandit -r . --severity-level medium --confidence-level high --skip B101,B301
       - name: Scan for secrets with detect-secrets
         run: detect-secrets scan --all-files --no-potential --exclude-files "tests/.*|.*\.min\.js|.*\.min\.css" .
       - name: Check code formatting with Ruff
