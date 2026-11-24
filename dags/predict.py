@@ -1,10 +1,12 @@
 import os
 import sys
+import logging
 from datetime import datetime, timedelta
 
 from airflow.sdk import dag, task
 
-sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))))  # So that airflow can find config files
+current_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0, current_path)  # So that airflow can find config files
 
 from dags.config import DATA_FOLDER, GENERATED_DATA_PATH
 from formation_mlops_2.feature_engineering_io import prepare_features_with_io
@@ -18,15 +20,20 @@ from formation_mlops_2.train_and_predict_io import predict_with_io  # noqa
 def predict():
     @task
     def prepare_features_with_io_task():
+        logging.info('Preprocessing...')
         features_path = os.path.join(DATA_FOLDER, f'prepared_features_{datetime.now()}.parquet')
         prepare_features_with_io(data_path=GENERATED_DATA_PATH,
                                  features_path=features_path,
                                  training_mode=False)
+        logging.info('Done!')
         return features_path
 
     # Start completing predict task
+    @task
     def predict_with_io_task():
-        pass
+        logging.info('Predicting...')
+        predict_with_io(features_path=features_path, model_path=os.path.join(current_path, '../models/model.joblib'), predictions_folder=os.path.join(DATA_FOLDER, 'predictions'))
+        logging.info('Done!')
 
     # End completing predict task
 
